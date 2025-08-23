@@ -21,9 +21,13 @@ class ProximaProject:
         
         """
 
+        # Fetch request response
         iss_tracking_response = requests.get(self.ISS_TRACKING_URL)
         
+
+        # Response status code verification
         if iss_tracking_response.status_code == 200:
+            # Fetch the current location
             iss_tracking_data = iss_tracking_response.json()
             self.iss_longitude = iss_tracking_data["iss_position"]["longitude"]
             self.iss_latitude = iss_tracking_data["iss_position"]["longitude"]
@@ -31,7 +35,6 @@ class ProximaProject:
         else:
             print(f"Error {iss_tracking_response.status_code}")
             
-
 if __name__ == "__main__":
     p = ProximaProject()
     print(p.iss_tracking())
