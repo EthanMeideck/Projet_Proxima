@@ -10,8 +10,6 @@ class ProximaProject:
         This class relies on 'time' and 'requests' libraries.
     """
 
-    ISS_TRACKING_URL = "http://api.open-notify.org/iss-now.json"
-
     def iss_tracking(self):
         """
         Track the International Space Station with it's latitude and longitude.
@@ -21,20 +19,28 @@ class ProximaProject:
         
         """
 
-        # Fetch request response
-        iss_tracking_response = requests.get(self.ISS_TRACKING_URL)
-        
+        ISS_TRACKING_URL = "http://api.open-notify.org/iss-now.json"
+        self.iss_location = []
 
+        # Fetch request response
+        iss_tracking_response = requests.get(ISS_TRACKING_URL)
+        
         # Response status code verification
         if iss_tracking_response.status_code == 200:
             # Fetch the current location
             iss_tracking_data = iss_tracking_response.json()
-            self.iss_longitude = iss_tracking_data["iss_position"]["longitude"]
-            self.iss_latitude = iss_tracking_data["iss_position"]["longitude"]
+            iss_longitude = iss_tracking_data["iss_position"]["longitude"]
+            iss_latitude = iss_tracking_data["iss_position"]["latitude"]
+
+            # Adding longitude & lattitude in a list
+            self.iss_location.append(iss_longitude)
+            self.iss_location.append(iss_latitude)
+
+            return self.iss_location
 
         else:
             print(f"Error {iss_tracking_response.status_code}")
             
 if __name__ == "__main__":
     p = ProximaProject()
-    print(p.iss_tracking())
+    p.iss_tracking()
