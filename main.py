@@ -41,6 +41,21 @@ class ProximaProject:
         else:
             print(f"Error {iss_tracking_response.status_code}")
             
+    def astronauts_tracking(self):
+        """
+        Track astronauts who are actually in the space station.
+        """
+
+        ASTRONAUTS_TRACKING_API_URL = "http://api.open-notify.org/astros.json"
+
+        astronauts_tracking_response = requests.get(ASTRONAUTS_TRACKING_API_URL)
+
+        if astronauts_tracking_response.status_code == 200:
+            print("Success !")
+        
+        else:
+            print(f"Error {astronauts_tracking_response.status_code}")
+    
 if __name__ == "__main__":
     p = ProximaProject()
-    p.iss_tracking()
+    p.astronauts_tracking()
