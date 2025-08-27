@@ -43,16 +43,27 @@ class ProximaProject:
             
     def astronauts_tracking(self):
         """
-        Track astronauts who are actually in the space station.
+        Track astronauts who are currently in the space station.
         """
-
+        
         ASTRONAUTS_TRACKING_API_URL = "http://api.open-notify.org/astros.json"
+        astronauts_in_iss = []
 
         astronauts_tracking_response = requests.get(ASTRONAUTS_TRACKING_API_URL)
 
         if astronauts_tracking_response.status_code == 200:
-            print("Success !")
-        
+            astronauts_tracking_data = astronauts_tracking_response.json()
+
+            # Fetching all astronauts in space
+            astronauts_in_space = astronauts_tracking_data["people"]
+
+            for astronauts in astronauts_in_space:
+                # Astronauts in ISS verification
+                if astronauts.get("craft") == "ISS":
+                    # Fetching the names of astronauts in the ISS & storing theme
+                    astronauts_name = astronauts.get("name")
+                    astronauts_in_iss.append(astronauts_name)
+
         else:
             print(f"Error {astronauts_tracking_response.status_code}")
     
