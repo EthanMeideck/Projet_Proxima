@@ -50,17 +50,22 @@ class ProximaProject:
 
         astronauts_tracking_response = requests.get(ASTRONAUTS_TRACKING_API_URL)
 
+        # Response status code verification
         if astronauts_tracking_response.status_code == 200:
-            astronauts_tracking_data = astronauts_tracking_response.json()
-
             # Fetching all astronauts in space
+            astronauts_tracking_data = astronauts_tracking_response.json()
             astronauts_in_space = astronauts_tracking_data["people"]
 
             # ISS Astronauts isolation and store them into a list
             astronauts_in_iss = [astronaut for astronaut in astronauts_in_space if astronaut.get("craft") == "ISS"]
+
+            # Removing the craft from the dictionary
+            for astronaut in astronauts_in_iss:
+                del astronaut["craft"]
+
             # Counting the number of astronauts in the ISS
             astronauts_in_iss.append({"number": len(astronauts_in_iss)} )
-            
+
             return astronauts_in_iss
 
         else:
